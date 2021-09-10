@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Slidify</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css" />
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+
+    <body>
+        <section class="wrapper">
+            <div class="slide-container" id="slidify-1">
+                <div class="slide">
+                    <div class="slide-wrapper" id="slide-wrapper-1">
+                        <img src="img/1.png" class="active">
+                        <img src="img/2.png">
+                        <img src="img/3.png">
+                    </div>
+                    <div class="slide-pagination">
+                        <div id="next">
+                            <div class="next-wrap">
+                                <svg version="1.1" id="next-slide" x="0px" y="0px" width="100%" height="100%"
+                                    viewBox="0 0 120 120" style="enable-background:new 0 0 120 120;"
+                                    xml:space="preserve">
+                                    <g>
+                                        <polygon style="fill:none;stroke:#FFE2BD;stroke-width:5;stroke-miterlimit:10;"
+                                            points="93.3,60.7 68.5,80.7 43.9,60.9 68.7,41.4 
+                                                                    " />
+                                        <polygon style="fill:none;stroke:#FFE2BD;stroke-width:5;stroke-miterlimit:10;"
+                                            points="115.1,60.7 90.3,80.7 65.7,60.9 
+                                                                    90.5,41.4 	" />
+                                        <line style="fill:none;stroke:#FFE2BD;stroke-width:5;stroke-miterlimit:10;"
+                                            x1="93.3" y1="60.6" x2="0.9" y2="60.6" />
+                                    </g>
+                                </svg>
+                                <p>التالي</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-player">
+                    <div class="audio-container" id="audio-container">
+                        <audio src="audio/hey.mp3" id="audio"></audio>
+
+                        <div class="navigation">
+                            <button id="play" class="action-btn">
+                                <i class="fas fa-play"></i>
+                            </button>
+
+                            <span id="currTime"></span>
+
+                            <div class="progress-wrapper">
+                                <div class="chapter-title">
+                                    <div class="music-info">
+                                        <h4 id="title"></h4>
+                                    </div>
+                                </div>
+
+                                <div class="chapter-dots">
+
+                                </div>
+                                <div class="progress-container" id="progress-container">
+                                    <div class="progress" id="progress"></div>
+                                </div>
+                            </div>
+                            <span id="durTime"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"
+                integrity="sha512-UxP+UhJaGRWuMG2YC6LPWYpFQnsSgnor0VUF3BHdD83PS/pOpN+FYbZmrYN+ISX8jnvgVUciqP/fILOXDjZSwg=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="_animations.js" type="module"></script>
+            <script type="module">
+                import { IntroAnimation, Slidify, AudioPlayer } from './js/main.js';
+                import { Domify as $ } from './js/domify.js';
+                import { PLAYER_1_OPTIONS } from './_configs.js';
+
+                // intro
+                const intro = new IntroAnimation({
+                    images: Array.from($('#slidify-1 #slide-wrapper-1 img').all()),
+                    ease: 'in',
+                    parent: '#slidify-1',
+                });
+
+                // slider
+                const slider1 = new Slidify({
+                    parent: '#slidify-1',
+                    usePagination: true,
+                    next: '.slide-pagination #next .next-wrap',
+                    easing: 'Expo.easeOut',
+                    degree: 20,
+                    speed: 2
+                });
+
+                const audio1 = $('#slidify-1 audio').el;
+                audio1.addEventListener('loadedmetadata', audio1.setAttribute('data-time', audio1.duration));
+                const player1 = new AudioPlayer({
+                    ...PLAYER_1_OPTIONS,
+                    slideInstance: slider1
+                });
+                audio1.addEventListener('loadeddata', intro.init());
+            </script>
+    </body>
+
+</html>
