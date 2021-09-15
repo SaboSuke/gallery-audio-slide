@@ -1,4 +1,4 @@
-import { Domify as $ } from './domify.js';
+import { Domify } from './domify.js';
 'use strict';
 
 const ROTATIONS = [0, 6, -6, 12, -12, 18, -18, 24, -24, 32, -32, 38, -38];
@@ -136,8 +136,8 @@ export let Slidify = function (options) {
         opts.usePagination = options.usePagination !== undefined ? options.usePagination : opts.usePagination;
 
         if (opts.usePagination) {
-            options.next && (opts.next = $(opts.parent + ' ' + options.next));
-            options.prev && (opts.prev = $(opts.parent + ' ' + options.prev));
+            options.next && (opts.next = Domify(opts.parent + ' ' + options.next));
+            options.prev && (opts.prev = Domify(opts.parent + ' ' + options.prev));
         }
 
         opts.speed = options.speed || opts.speed;
@@ -171,7 +171,7 @@ export let Slidify = function (options) {
                     x: '0%',
                     rotate: ROTATIONS[i],
                     ease: opts.easing,
-                }, `-=${opts.speed / 1.35 + 0.1}`); //exaple: 1.6 if duration is 2
+                }, `-=${opts.speed / 1.35 + 0.1}`); //exp: 1.6 if duration is 2
             }
 
             gsap.to(images[i].style, {
@@ -216,9 +216,8 @@ export let Slidify = function (options) {
     const load = function () {
         init();
 
-        images = Array.from($(opts.parent + ' img').all()) || console.error('Invalid selector!');
+        images = Array.from(Domify(opts.parent + ' img').all()) || console.error('Invalid selector!');
 
-        console.log(opts.next)
         opts.usePagination && (
             opts.next && opts.next.click(that.nextSlide),
             opts.prev && opts.prev.click(that.prevSlide)
@@ -244,17 +243,17 @@ export let AudioPlayer = function (options) {
     const chapters = options.chapters;
     const nbChapters = chapters.length;
     const that = this;
-    const playBtn = $(`${parent} #play`).el;
-    const nextBtn = $(`${parent} #next`).el;
-    const audioContainer = $(`${parent} #audio-container`).el;
-    const audioElement = $(`${parent} #audio`).el;
-    const audioDuration = parseFloat($(`${parent} audio`).attr('data-time'));
-    const title = $(`${parent} #title`).el;
-    const progress = $(`${parent} #progress`).el;
-    const progressContainer = $(`${parent} #progress-container`).el;
-    const pointersContainer = $(`${parent} .chapter-dots`).el;
-    const currTime = $(`${parent} #currTime`).el;
-    const durTime = $(`${parent} #durTime`).el;
+    const playBtn = Domify(`${parent} #play`).el;
+    const nextBtn = Domify(`${parent} #next`).el;
+    const audioContainer = Domify(`${parent} #audio-container`).el;
+    const audioElement = Domify(`${parent} #audio`).el;
+    const audioDuration = parseFloat(Domify(`${parent} audio`).attr('data-time'));
+    const title = Domify(`${parent} #title`).el;
+    const progress = Domify(`${parent} #progress`).el;
+    const progressContainer = Domify(`${parent} #progress-container`).el;
+    const pointersContainer = Domify(`${parent} .chapter-dots`).el;
+    const currTime = Domify(`${parent} #currTime`).el;
+    const durTime = Domify(`${parent} #durTime`).el;
 
     let slideInstance = options.slideInstance || console.warn('You didn\'t specify a slide instance!');
     let currentChapter = 0;
@@ -458,8 +457,8 @@ export let AudioPlayer = function (options) {
     audioElement.addEventListener('timeupdate', calcDurationAndTime);
 
     // Pointer Click and Hover
-    const pointers = $(`${parent} .chapter-dots .dot`).all();
-    const info = $(`${parent} .music-info`).el;
+    const pointers = Domify(`${parent} .chapter-dots .dot`).all();
+    const info = Domify(`${parent} .music-info`).el;
     pointers.forEach((pointer, index) => {
         pointer.addEventListener('click', () => {
             loadChapter(chapters[index]);

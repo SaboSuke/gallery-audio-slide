@@ -10,11 +10,26 @@
     padding: 0;
 }
 
+.rtl{
+  direction: rtl;
+}
+
 body {
     overflow: hidden;
     width: 100%;
     background: #1a1006;
-    color: var(--primary)
+    color: var(--primary);
+}
+
+/* direction fix */
+body.rtl .slide,
+body.rtl .audio-container .navigation,
+body.rtl div#next .next-wrap{
+  flex-direction: row-reverse;
+}
+
+body.rtl .slide-player{
+  transform: translateX(-50%);
 }
 
 .wrapper {
@@ -39,6 +54,7 @@ body {
     width: 500px;
     min-height: 400px;
 }
+
 
 .slide>div {
     height: 100%
@@ -87,6 +103,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  margin: 0px 10px;
 }
 
 .chapter-dots{
@@ -113,14 +130,6 @@ body {
 
 .chapter-dots .dot:last-child{
   left: 50%
-}
-
-#currTime {
-  margin-right: 10px;
-}
-
-#durTime {
-  margin-left: 10px;
 }
 
 .progress-container {

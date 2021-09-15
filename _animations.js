@@ -1,7 +1,7 @@
-import { Domify as $ } from './js/domify.js';
+import { Domify } from './js/domify.js';
 
 // slider & audio next btn animation
-const next = $('#next .next-wrap');
+const next = Domify('#next .next-wrap');
 next.on('mouseenter', () => {
     const tl = gsap.timeline();
     tl.to('#next .next-wrap p', {
